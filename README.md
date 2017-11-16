@@ -13,11 +13,11 @@ A few days ago I found a mod on the Banana Land server which allows you to craft
 
 **Dependencies:** default
 
-**Optional Dependencies:** [mobs_monster](https://github.com/tenplus1/mobs_monster)(note: depends on [mobs](https://forum.minetest.net/viewtopic.php?t=9917)), [lavastuff](https://forum.minetest.net/viewtopic.php?f=9&t=18608)
+**Optional Dependencies:** [mobs_monster](https://github.com/tenplus1/mobs_monster)(note: depends on [mobs](https://forum.minetest.net/viewtopic.php?t=9917)), [lavastuff](https://forum.minetest.net/viewtopic.php?f=9&t=18608), [toolranks](https://forum.minetest.net/viewtopic.php?t=18056)
 
-**Notes on Optional Dependencies: **Adding one of or both of the optional dependencies will add a Lava Multitool which is better than diamond and auto-smelts like the lava pick in mobs_monster.
+**Notes on Optional Dependencies:** Adding one of or both of the optional dependencies will add a Lava Multitool which is better than diamond and auto-smelts like the lava pick in mobs_monster. Adding toolranks enables all of the functionality of the toolranks mod.
 
-## spoiler=Screenshots and Crafting
+## Screenshots and Crafting
 
 **Note:** craft in crafting grid the same as the tools are shown in the 3×3 Item Frame grid.
 
