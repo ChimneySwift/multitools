@@ -7,6 +7,8 @@ Multitools adds the ability to craft several tools into 1 multi-use tool.
 
 A few days ago I found a mod on the Banana Land server which allows you to craft a mese or diamond shovel, axe and pick into one tool that performs better at all of those tool's main tasks. Unfortunately, I don't think this mod is available, so I decided to "borrow" the idea and make my own similar version.
 
+**Contributors:** Many thanks to LadyK for improving the multitool textures!
+
 **Code license:** [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 
 **Textures license:** [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
@@ -24,17 +26,17 @@ A few days ago I found a mod on the Banana Land server which allows you to craft
 **default:**
 When only the "default" dependency is satisfied, this mod will add diamond and mese multitools:
 
-![alt text](https://i.imgur.com/K8HqDsJ.png "Image")
+![alt text](https://github.com/ChimneySwift/multitools/blob/master/default_items.png?raw=true "Image")
 
 **mobs_monster:**
 When this mod and mobs_monster is loaded, this mod will also add the Lava Multitool:
 
-![alt text](https://i.imgur.com/yMZKkR2.png "Image")
+![alt text](https://github.com/ChimneySwift/multitools/blob/master/mobs_redo_items.png?raw=true "Image")
 
 **lavastuff:**
 When this mod is loaded with lavastuff, the texture and recipe of the Lava Multitool will change to fit the rest of the lavastuff mod:
 
-![alt text](https://i.imgur.com/mdi3a6K.png "Image")
+![alt text](https://github.com/ChimneySwift/multitools/blob/master/lavastuff_items.png?raw=true "Image")
 
 It is good to note that if both the lavastuff mod and the mobs_monster mod are loaded, one can be removed at any time and the mod will automatically convert the textures and resume as normal only leaving unknown items behind if both lavastuff and mobs_monster are removed.
 
