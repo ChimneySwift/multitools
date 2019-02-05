@@ -2,3 +2,5 @@ default
 toolranks?
 mobs_monster?
 lavastuff?
+ethereal?
+moreores?

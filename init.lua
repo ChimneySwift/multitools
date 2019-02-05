@@ -67,93 +67,98 @@ minetest.override_item("multitools:multitool_mese", {
     after_use = toolranks.new_afteruse})
 end
 
-minetest.register_tool("multitools:multitool_mithril", {
-    description = "Mithril Multitool",
-    inventory_image = "multitool_mithril.png",
-    range = 8.0,
-    tool_capabilities = {
-        full_punch_interval = 0.9,
-        max_drop_level = 3,
-        groupcaps = {
-            cracky = {times={[1]=2.25, [2]=0.55, [3]=0.35}, uses=200, maxlevel=2},
-            crumbly = {times={[1]=0.70, [2]=0.35, [3]=0.20}, uses=200, maxlevel=2},
-            choppy = {times={[1]=1.75, [2]=0.45, [3]=0.45}, uses=200, maxlevel=2},
-            snappy = {times={[2]=0.70, [3]=0.30}, uses=100, maxlevel=1},
+
+if minetest.get_modpath("moreores") then
+    minetest.register_tool("multitools:multitool_mithril", {
+        description = "Mithril Multitool",
+        inventory_image = "multitool_mithril.png",
+        range = 8.0,
+        tool_capabilities = {
+            full_punch_interval = 0.9,
+            max_drop_level = 3,
+            groupcaps = {
+                cracky = {times={[1]=2.25, [2]=0.55, [3]=0.35}, uses=200, maxlevel=2},
+                crumbly = {times={[1]=0.70, [2]=0.35, [3]=0.20}, uses=200, maxlevel=2},
+                choppy = {times={[1]=1.75, [2]=0.45, [3]=0.45}, uses=200, maxlevel=2},
+                snappy = {times={[2]=0.70, [3]=0.30}, uses=100, maxlevel=1},
+            },
+            damage_groups = {fleshy=9},
         },
-        damage_groups = {fleshy=9},
-    },
-    sound = {breaks = "default_tool_breaks"},
-})
+        sound = {breaks = "default_tool_breaks"},
+    })
 
-minetest.register_craft({
-    output = "multitools:multitool_mithril",
-    recipe = {
-        {"", "moreores:shovel_mithril", ""},
-        {"moreores:axe_mithril", "moreores:pick_mithril", "moreores:sword_mithril"},
-    }
-})
+    minetest.register_craft({
+        output = "multitools:multitool_mithril",
+        recipe = {
+            {"", "moreores:shovel_mithril", ""},
+            {"moreores:axe_mithril", "moreores:pick_mithril", "moreores:sword_mithril"},
+        }
+    })
 
--- Add [toolranks] mod support if found
-if minetest.get_modpath("toolranks") then
+    -- Add [toolranks] mod support if found
+    if minetest.get_modpath("toolranks") then
 
-minetest.override_item("multitools:multitool_mithril", {
-    original_description = "Mithril Multitool",
-    description = toolranks.create_description("Mithril Multitool", 0, 1),
-    after_use = toolranks.new_afteruse})
+    minetest.override_item("multitools:multitool_mithril", {
+        original_description = "Mithril Multitool",
+        description = toolranks.create_description("Mithril Multitool", 0, 1),
+        after_use = toolranks.new_afteruse})
+    end
 end
 
-minetest.register_tool("multitools:multitool_crystal", {
-    description = "Crystal Multitool",
-    inventory_image = "multitool_crystal.png",
-    range = 8.0,
-    tool_capabilities = {
-        full_punch_interval = 0.9,
-        max_drop_level = 3,
-        groupcaps = {
-            cracky = {times={[1]=1.8, [2]=0.8, [3]=0.40}, uses=20, maxlevel=3},
-            crumbly = {times={[1]=0.70, [2]=0.35, [3]=0.20}, uses=50, maxlevel=2},
-            choppy = {times={[1]=1.75, [2]=0.45, [3]=0.45}, uses=50, maxlevel=2},
-            snappy = {times={[1]=1.70, [2]=0.70, [3]=0.25}, uses=50, maxlevel=3},
+if minetest.get_modpath("ethereal") then
+    minetest.register_tool("multitools:multitool_crystal", {
+        description = "Crystal Multitool",
+        inventory_image = "multitool_crystal.png",
+        range = 8.0,
+        tool_capabilities = {
+            full_punch_interval = 0.9,
+            max_drop_level = 3,
+            groupcaps = {
+                cracky = {times={[1]=1.8, [2]=0.8, [3]=0.40}, uses=20, maxlevel=3},
+                crumbly = {times={[1]=0.70, [2]=0.35, [3]=0.20}, uses=50, maxlevel=2},
+                choppy = {times={[1]=1.75, [2]=0.45, [3]=0.45}, uses=50, maxlevel=2},
+                snappy = {times={[1]=1.70, [2]=0.70, [3]=0.25}, uses=50, maxlevel=3},
+            },
+            damage_groups = {fleshy=10},
         },
-        damage_groups = {fleshy=10},
-    },
-    sound = {breaks = "default_tool_breaks"},
-})
+        sound = {breaks = "default_tool_breaks"},
+    })
 
--- From Etheral mod
-local old_handle_node_drops = minetest.handle_node_drops
+    -- From Etheral mod
+    local old_handle_node_drops = minetest.handle_node_drops
 
-function minetest.handle_node_drops(pos, drops, digger)
+    function minetest.handle_node_drops(pos, drops, digger)
 
-    -- are we holding Crystal Multitool?
-    if digger:get_wielded_item():get_name() ~= "multitools:multitool_crystal" then
-        return old_handle_node_drops(pos, drops, digger)
+        -- are we holding Crystal Multitool?
+        if digger:get_wielded_item():get_name() ~= "multitools:multitool_crystal" then
+            return old_handle_node_drops(pos, drops, digger)
+        end
+
+        local nn = minetest.get_node(pos).name
+
+        if minetest.get_item_group(nn, "crumbly") == 0 and minetest.get_item_group(nn, "cracky") == 0 then
+            return old_handle_node_drops(pos, drops, digger)
+        end
+
+        return old_handle_node_drops(pos, {ItemStack(nn)}, digger)
     end
 
-    local nn = minetest.get_node(pos).name
+    minetest.register_craft({
+        output = "multitools:multitool_crystal",
+        recipe = {
+            {"", "ethereal:shovel_crystal", ""},
+            {"default:axe_diamond", "ethereal:pick_crystal", "ethereal:sword_crystal"},
+        }
+    })
 
-    if minetest.get_item_group(nn, "crumbly") == 0 and minetest.get_item_group(nn, "cracky") == 0 then
-        return old_handle_node_drops(pos, drops, digger)
+    -- Add [toolranks] mod support if found
+    if minetest.get_modpath("toolranks") then
+
+    minetest.override_item("multitools:multitool_crystal", {
+        original_description = "Crystal Multitool",
+        description = toolranks.create_description("Crystal Multitool", 0, 1),
+        after_use = toolranks.new_afteruse})
     end
-
-    return old_handle_node_drops(pos, {ItemStack(nn)}, digger)
-end
-
-minetest.register_craft({
-    output = "multitools:multitool_crystal",
-    recipe = {
-        {"", "ethereal:shovel_crystal", ""},
-        {"default:axe_diamond", "ethereal:pick_crystal", "ethereal:sword_crystal"},
-    }
-})
-
--- Add [toolranks] mod support if found
-if minetest.get_modpath("toolranks") then
-
-minetest.override_item("multitools:multitool_crystal", {
-    original_description = "Crystal Multitool",
-    description = toolranks.create_description("Crystal Multitool", 0, 1),
-    after_use = toolranks.new_afteruse})
 end
 
 if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") then
