@@ -1,3 +1,48 @@
+if minetest.get_modpath("lavastuff") then
+    lavastuff.burn_drops("multitools:multitool_lava")
+else
+    local old_handle_node_drops = minetest.handle_node_drops
+    function minetest.handle_node_drops(pos, drops, digger)
+
+            -- are we holding Lava Multitool?
+            if digger:get_wielded_item():get_name() ~= ("multitools:multitool_lava") then
+                return old_handle_node_drops(pos, drops, digger)
+            end
+
+            -- reset new smelted drops
+            local hot_drops = {}
+
+            -- loop through current node drops
+            for _, drop in pairs(drops) do
+
+                -- get cooked output of current drops
+                local stack = ItemStack(drop)
+                local output = minetest.get_craft_result({
+                    method = "cooking",
+                    width = 1,
+                    items = {drop}
+                })
+
+                -- if we have cooked result then add to new list
+                if output
+                and output.item
+                and not output.item:is_empty() then
+
+                    table.insert(hot_drops,
+                        ItemStack({
+                            name = output.item:get_name(),
+                            count = output.item:to_table().count,
+                        })
+                    )
+                else -- if not then return normal drops
+                    table.insert(hot_drops, stack)
+                end
+            end
+
+            return old_handle_node_drops(pos, hot_drops, digger)
+    end
+end
+
 minetest.register_tool("multitools:multitool_diamond", {
     description = "Diamond Multitool",
     inventory_image = "multitool_diamond.png",
@@ -200,8 +245,6 @@ if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") the
                 {"lavastuff:axe", "lavastuff:pick", "lavastuff:sword"},
             }
         })
-
-        lavastuff.burn_drops("multitools:multitool_lava")
     end
 
     -- Add [toolranks] mod support if found
