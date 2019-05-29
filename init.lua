@@ -1,6 +1,6 @@
 if minetest.get_modpath("lavastuff") then
     lavastuff.burn_drops("multitools:multitool_lava")
-else
+elseif minetest.get_modpath("mobs_monster") then
     local old_handle_node_drops = minetest.handle_node_drops
     function minetest.handle_node_drops(pos, drops, digger)
 
