@@ -200,6 +200,8 @@ if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") the
                 {"lavastuff:axe", "lavastuff:pick", "lavastuff:sword"},
             }
         })
+
+        lavastuff.burn_drops("multitools:multitool_lava")
     end
 
     -- Add [toolranks] mod support if found
@@ -210,6 +212,4 @@ if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") the
         description = toolranks.create_description("Lava Multitool", 0, 1),
         after_use = toolranks.new_afteruse})
     end
-
-    lavastuff.burn_drops("multitools:multitool_lava")
 end
