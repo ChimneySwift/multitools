@@ -1,3 +1,12 @@
+-- Translation support
+local S = minetest.get_translator("multitools")
+local use_toolranks = minetest.get_modpath("toolranks")
+multitools = {}
+
+if use_toolranks then
+    toolranks.register_extra_tool_type("multitool", S("multitool"))
+end
+
 if minetest.get_modpath("lavastuff") then
     lavastuff.burn_drops("multitools:multitool_lava")
 elseif minetest.get_modpath("mobs_monster") then
@@ -43,11 +52,26 @@ elseif minetest.get_modpath("mobs_monster") then
     end
 end
 
-minetest.register_tool("multitools:multitool_diamond", {
-    description = "Diamond Multitool",
-    inventory_image = "multitool_diamond.png",
-    range = 6.0,
-    tool_capabilities = {
+function multitools.register_multitool(modname, material, description, image, range, cap, sound)
+    local original_desc
+    local desc = description
+    if use_toolranks then
+        original_desc = description
+        desc = toolranks.create_description(description, 0, 1)
+    end
+    minetest.register_tool(modname..":multitool_"..material, {
+        description = desc,
+        original_description = original_desc or nil,
+        after_use = use_toolranks and toolranks.new_afteruse or nil,
+        inventory_image = image,
+        range = range,
+        tool_capabilities = cap,
+        sound = sound,
+    })
+end
+
+multitools.register_multitool("multitools", "diamond", S("Diamond Multitool"), "multitool_diamond.png", 6.0,
+    {
         full_punch_interval = 0.9,
         max_drop_level = 3,
         groupcaps = {
@@ -58,8 +82,8 @@ minetest.register_tool("multitools:multitool_diamond", {
         },
         damage_groups = {fleshy=8},
     },
-    sound = {breaks = "default_tool_breaks"},
-})
+    {breaks = "default_tool_breaks"}
+)
 
 minetest.register_craft({
     output = "multitools:multitool_diamond",
@@ -69,19 +93,8 @@ minetest.register_craft({
     }
 })
 
--- Add [toolranks] mod support if found
-if minetest.get_modpath("toolranks") then
-
-minetest.override_item("multitools:multitool_diamond", {
-    original_description = "Diamond Multitool",
-    description = toolranks.create_description("Diamond Multitool", 0, 1),
-    after_use = toolranks.new_afteruse})
-end
-
-minetest.register_tool("multitools:multitool_mese", {
-    description = "Mese Multitool",
-    inventory_image = "multitool_mese.png",
-    tool_capabilities = {
+multitools.register_multitool("multitools", "mese", S("Mese Multitool"), "multitool_mese.png", nil,
+    {
         full_punch_interval = 0.9,
         max_drop_level = 3,
         groupcaps = {
@@ -92,8 +105,8 @@ minetest.register_tool("multitools:multitool_mese", {
         },
         damage_groups = {fleshy=7},
     },
-    sound = {breaks = "default_tool_breaks"},
-})
+    {breaks = "default_tool_breaks"}
+)
 
 minetest.register_craft({
     output = "multitools:multitool_mese",
@@ -103,34 +116,21 @@ minetest.register_craft({
     }
 })
 
--- Add [toolranks] mod support if found
-if minetest.get_modpath("toolranks") then
-
-minetest.override_item("multitools:multitool_mese", {
-    original_description = "Mese Multitool",
-    description = toolranks.create_description("Mese Multitool", 0, 1),
-    after_use = toolranks.new_afteruse})
-end
-
-
 if minetest.get_modpath("moreores") then
-    minetest.register_tool("multitools:multitool_mithril", {
-        description = "Mithril Multitool",
-        inventory_image = "multitool_mithril.png",
-        range = 8.0,
-        tool_capabilities = {
+    multitools.register_multitool("multitools", "mithril", S("Mithril Multitool"), "multitool_mithril.png", 8.0,
+        {
             full_punch_interval = 0.9,
             max_drop_level = 3,
             groupcaps = {
-                cracky = {times={[1]=2.25, [2]=0.55, [3]=0.35}, uses=200, maxlevel=2},
-                crumbly = {times={[1]=0.70, [2]=0.35, [3]=0.20}, uses=200, maxlevel=2},
-                choppy = {times={[1]=1.75, [2]=0.45, [3]=0.45}, uses=200, maxlevel=2},
-                snappy = {times={[2]=0.70, [3]=0.30}, uses=100, maxlevel=1},
+            cracky = {times={[1]=2.25, [2]=0.55, [3]=0.35}, uses=200, maxlevel=2},
+            crumbly = {times={[1]=0.70, [2]=0.35, [3]=0.20}, uses=200, maxlevel=2},
+            choppy = {times={[1]=1.75, [2]=0.45, [3]=0.45}, uses=200, maxlevel=2},
+            snappy = {times={[2]=0.70, [3]=0.30}, uses=100, maxlevel=1},
             },
             damage_groups = {fleshy=9},
         },
-        sound = {breaks = "default_tool_breaks"},
-    })
+        {breaks = "default_tool_breaks"}
+    )
 
     minetest.register_craft({
         output = "multitools:multitool_mithril",
@@ -139,35 +139,23 @@ if minetest.get_modpath("moreores") then
             {"moreores:axe_mithril", "moreores:pick_mithril", "moreores:sword_mithril"},
         }
     })
-
-    -- Add [toolranks] mod support if found
-    if minetest.get_modpath("toolranks") then
-
-    minetest.override_item("multitools:multitool_mithril", {
-        original_description = "Mithril Multitool",
-        description = toolranks.create_description("Mithril Multitool", 0, 1),
-        after_use = toolranks.new_afteruse})
-    end
 end
 
 if minetest.get_modpath("ethereal") then
-    minetest.register_tool("multitools:multitool_crystal", {
-        description = "Crystal Multitool",
-        inventory_image = "multitool_crystal.png",
-        range = 8.0,
-        tool_capabilities = {
+    multitools.register_multitool("multitools", "crystal", S("Crystal Multitool"), "multitool_crystal.png", 8.0,
+        {
             full_punch_interval = 0.9,
             max_drop_level = 3,
             groupcaps = {
-                cracky = {times={[1]=1.8, [2]=0.8, [3]=0.40}, uses=20, maxlevel=3},
-                crumbly = {times={[1]=0.70, [2]=0.35, [3]=0.20}, uses=50, maxlevel=2},
-                choppy = {times={[1]=1.75, [2]=0.45, [3]=0.45}, uses=50, maxlevel=2},
-                snappy = {times={[1]=1.70, [2]=0.70, [3]=0.25}, uses=50, maxlevel=3},
+            cracky = {times={[1]=1.8, [2]=0.8, [3]=0.40}, uses=20, maxlevel=3},
+            crumbly = {times={[1]=0.70, [2]=0.35, [3]=0.20}, uses=50, maxlevel=2},
+            choppy = {times={[1]=1.75, [2]=0.45, [3]=0.45}, uses=50, maxlevel=2},
+            snappy = {times={[1]=1.70, [2]=0.70, [3]=0.25}, uses=50, maxlevel=3},
             },
             damage_groups = {fleshy=10},
         },
-        sound = {breaks = "default_tool_breaks"},
-    })
+        {breaks = "default_tool_breaks"}
+    )
 
     -- From Etheral mod
     local old_handle_node_drops = minetest.handle_node_drops
@@ -196,14 +184,6 @@ if minetest.get_modpath("ethereal") then
         }
     })
 
-    -- Add [toolranks] mod support if found
-    if minetest.get_modpath("toolranks") then
-
-    minetest.override_item("multitools:multitool_crystal", {
-        original_description = "Crystal Multitool",
-        description = toolranks.create_description("Crystal Multitool", 0, 1),
-        after_use = toolranks.new_afteruse})
-    end
 end
 
 if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") then
@@ -211,11 +191,8 @@ if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") the
     if minetest.get_modpath("lavastuff") then
         img = "multitool_lavastuff.png"
     end
-    minetest.register_tool("multitools:multitool_lava", {
-        description = "Lava Multitool",
-        inventory_image = img,
-        range = 8.0,
-        tool_capabilities = {
+    multitools.register_multitool("multitools", "lava", img, 8.0,
+        {
             full_punch_interval = 0.4,
             max_drop_level = 3,
             groupcaps = {
@@ -226,8 +203,8 @@ if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") the
             },
             damage_groups = {fleshy=8},
         },
-        sound = {breaks = "default_tool_breaks"},
-    })
+        {breaks = "default_tool_breaks"}
+    )
     if not minetest.get_modpath("lavastuff") then
         minetest.register_craft({
             output = "multitools:multitool_lava",
@@ -245,14 +222,5 @@ if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") the
                 {"lavastuff:axe", "lavastuff:pick", "lavastuff:sword"},
             }
         })
-    end
-
-    -- Add [toolranks] mod support if found
-    if minetest.get_modpath("toolranks") then
-
-    minetest.override_item("multitools:multitool_lava", {
-        original_description = "Lava Multitool",
-        description = toolranks.create_description("Lava Multitool", 0, 1),
-        after_use = toolranks.new_afteruse})
     end
 end
