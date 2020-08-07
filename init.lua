@@ -14,7 +14,7 @@ elseif minetest.get_modpath("mobs_monster") then
     function minetest.handle_node_drops(pos, drops, digger)
 
             -- are we holding Lava Multitool?
-            if digger:get_wielded_item():get_name() ~= ("multitools:multitool_lava") then
+            if digger and digger:get_wielded_item():get_name() ~= ("multitools:multitool_lava") then
                 return old_handle_node_drops(pos, drops, digger)
             end
 
