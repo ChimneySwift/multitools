@@ -1,0 +1,11 @@
+# textdomain: multitools
+
+# License: CC0-1.0
+# Author: 
+
+multitool=
+Diamond Multitool=
+Mese Multitool=
+Mithril Multitool=
+Crystal Multitool=
+Lava Multitool=
