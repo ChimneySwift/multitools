@@ -1,10 +1,11 @@
 -- Translation support
 local S = minetest.get_translator("multitools")
 local use_toolranks = minetest.get_modpath("toolranks")
+local use_toolranks_extras = minetest.get_modpath("toolranks_extras")
 multitools = {}
 
-if use_toolranks then
-    toolranks.register_extra_tool_type("multitool", S("multitool"))
+if use_toolranks_extras and toolranks_extras.register_tool_type then
+    toolranks_extras.register_tool_type("multitool", S("multitool"))
 end
 
 if minetest.get_modpath("lavastuff") then
