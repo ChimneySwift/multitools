@@ -192,7 +192,7 @@ if minetest.get_modpath("mobs_monster") or minetest.get_modpath("lavastuff") the
     if minetest.get_modpath("lavastuff") then
         img = "multitool_lavastuff.png"
     end
-    multitools.register_multitool("multitools", "lava", img, 8.0,
+    multitools.register_multitool("multitools", "lava", S("Lava Multitool"), img, 8.0,
         {
             full_punch_interval = 0.4,
             max_drop_level = 3,
