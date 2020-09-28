@@ -181,7 +181,7 @@ if minetest.get_modpath("ethereal") then
         output = "multitools:multitool_crystal",
         recipe = {
             {"", "ethereal:shovel_crystal", ""},
-            {"default:axe_diamond", "ethereal:pick_crystal", "ethereal:sword_crystal"},
+            {"ethereal:axe_crystal", "ethereal:pick_crystal", "ethereal:sword_crystal"},
         }
     })
 
