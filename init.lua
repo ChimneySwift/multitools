@@ -164,7 +164,7 @@ if minetest.get_modpath("ethereal") then
     function minetest.handle_node_drops(pos, drops, digger)
 
         -- are we holding Crystal Multitool?
-        if digger:get_wielded_item():get_name() ~= "multitools:multitool_crystal" then
+        if digger and digger:get_wielded_item():get_name() ~= "multitools:multitool_crystal" then
             return old_handle_node_drops(pos, drops, digger)
         end
 
